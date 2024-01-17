@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, jsonify, send_file
+from PIL import Image
 import cv2
 import numpy as np
 import time
@@ -16,7 +17,7 @@ from io import BytesIO
 
 
 # Load the anti-spoofing models and initialize the AntiSpoofPredict object
-MODEL_DIR = "/root/MultiAntiSpoofing/SpoofDetector1/resources/anti_spoof_models"
+MODEL_DIR = "/home/hungha/AI_365/Cham_cong/MultiAntiSpoof/SpoofDetector1/resources/anti_spoof_models"
 DEVICE_ID = 0
 model_test = AntiSpoofPredict(DEVICE_ID)
 
@@ -30,14 +31,8 @@ def check_image(image):
         return False
     return True
 
-def predict_spoof(image_url):
-    base64_data = image_url
-    # Tách phần dữ liệu base64 từ chuỗi
-    image_data = base64_data.split(';base64,')[-1]
-
-    # Giải mã dữ liệu base64 và tạo đối tượng hình ảnh
-    image_bytes = BytesIO(base64.b64decode(image_data))
-    image = Image.open(image_bytes)
+def predict_spoof(image_array):
+    image = Image.fromarray(image_array)
 
     # Lưu hình ảnh vào file
     output_file_path = 'SpoofDetector1/output_image.jpg'

@@ -20,8 +20,8 @@ MODEL_MAPPING = {
 
 class Detection:
     def __init__(self):
-        caffemodel = "/root/MultiAntiSpoofing/SpoofDetector2/resources/detection_model/Widerface-RetinaFace.caffemodel"
-        deploy = "/root/MultiAntiSpoofing/SpoofDetector2/resources/detection_model/deploy.prototxt"
+        caffemodel = "/home/hungha/AI_365/Cham_cong/MultiAntiSpoof/SpoofDetector2/resources/detection_model/Widerface-RetinaFace.caffemodel"
+        deploy = "/home/hungha/AI_365/Cham_cong/MultiAntiSpoof/SpoofDetector2/resources/detection_model/deploy.prototxt"
         self.detector = cv2.dnn.readNetFromCaffe(deploy, caffemodel)
         self.detector_confidence = 0.6
 

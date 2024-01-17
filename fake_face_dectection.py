@@ -1,11 +1,11 @@
-from flask import Flask, request, jsonify
+
 import concurrent.futures
 from termcolor import colored
 from SpoofDetector1.web_API_spoof_attack import predict_spoof as predict_spoof1
 from SpoofDetector2.web_API_spoof_attack import predict_spoof as predict_spoof2
 from SpoofDetector3.web_API_spoof_attack import predict_spoof as predict_spoof3
 import time
-app = Flask(__name__)
+
 
 STYLE = '''
 =====STYLE - TAYLOR SWIFT=====
@@ -54,13 +54,12 @@ And when we go crashing down (now we go), we come back every time
 'Cause we never go out of style, we never go out of style'''
 ANSI_PINK = '\033[95m'
 ANSI_RESET = '\033[0m'
-@app.route('/predict', methods=['POST'])
-def predict():
+
+def predict(blinding_light):
     st = time.time()
     PREDICT_SPOOF = [predict_spoof1, predict_spoof2, predict_spoof3]
-    content = request.json
     # print(content)
-    image_urls = content['image_urls']
+    image_urls = blinding_light['image_arrays']
     
     chunk_size = 3
 
@@ -77,8 +76,6 @@ def predict():
             all_futures.append(result)
             # print(result)
     executor.shutdown(wait=True)
-    print("exe time for spoof detection: ", time.time()-st)
-    return jsonify({'predicted_label': all_futures})
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=4321, debug=True)
+    print(time.time()-st)
+    print({'predicted_label': all_futures})
+    return {'predicted_label': all_futures}
